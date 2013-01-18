@@ -1,32 +1,23 @@
 #!/bin/sh
 # Copyright (c) 2013 Jason LuBean - http://github.com/jlubean/kp
+# Kill all processes that have a particular key word in the command used to initiate them.
+# Usage: kp [key_word]
+#
 
-process_name=$1;
-if [ -z "$process_name" -a "${process_name+xxx}" = "xxx" ]; then echo "Usage: kp [process_name]\n"; exit 1; fi
+key_word=$1;
+if [ -z "key_word" -a "${key_word+xxx}" = "xxx" ]; then echo "Usage: kp [key_word]\n"; exit 1; fi
 
-process_count=`ps -fe | grep $process_name | tr -s ' ' | cut -d" " -f2 | tr " " "\n" | wc | tr -s ' ' | sed 's/^ *//g' | cut -d" " -f1`
+process_count=`ps -fe | grep $key_word | tr -s ' ' | cut -d" " -f2 | tr " " "\n" | wc | tr -s ' ' | sed 's/^ *//g' | cut -d" " -f1`
 process_count=`expr $process_count - 3`
+default="L"
+prompt="yes|no|List"
 
 if [ $process_count -gt 0 ]
 then
   while true; do
    
-    if [ "${2:-}" = "Y" ]; then
-      prompt="YES|no|list"
-      default=Y
-    elif [ "${2:-}" = "N" ]; then
-      prompt="yes|NO|list"
-      default=N
-    elif [ "${2:-}" = "L" ]; then
-      prompt="yes|no|LIST"
-      default=L
-    else
-      prompt="yes|no|list"
-      default=
-    fi
-  
     # Ask the question
-    read -p "Are you sure you want to kill $process_count $process_name processes [$prompt]? " REPLY
+    read -p "Are you sure you want to kill $process_count $key_word processes [$prompt]? " REPLY
   
     # Default?
     if [ -z "$REPLY" ]; then
@@ -35,11 +26,11 @@ then
    
     # Check if the reply is valid
     case "$REPLY" in
-      Y*|y*) ps -fe | grep $process_name | tr -s ' ' | cut -d" " -f2 | head -$process_count | tr "\n" " " | xargs sudo kill -9; echo "Killed $process_count processes."; exit;;
+      Y*|y*) ps -fe | grep $key_word | tr -s ' ' | cut -d" " -f2 | head -$process_count | tr "\n" " " | xargs sudo kill -9; echo "Killed $process_count processes."; exit;;
       N*|n*) exit;;
-      L*|l*) ps -fe | grep $process_name | head -$process_count;;
+      L*|l*) ps -fe | grep $key_word | head -$process_count;;
     esac
   done
 else
-  echo "No $process_name processes found."
+  echo "No $key_word processes found."
 fi
