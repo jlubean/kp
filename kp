@@ -27,7 +27,7 @@ then
     # Check if the reply is valid
     case "$REPLY" in
       Y*|y*) ps -fe | grep $key_word | tr -s ' ' | cut -d" " -f2 | head -$process_count | tr "\n" " " | xargs sudo kill -9; echo "Killed $process_count processes."; exit;;
-      N*|n*) exit;;
+      N*|n*) echo "No processes were killed."; exit;;
       L*|l*) ps -fe | grep $key_word | head -$process_count;;
     esac
   done
