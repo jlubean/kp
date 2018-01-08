@@ -7,7 +7,7 @@
 key_word=$1;
 if [ -z "key_word" -a "${key_word+xxx}" = "xxx" ]; then echo "Usage: kp [key_word]\n"; exit 1; fi
 
-process_count=`ps -fe | grep $key_word | tr -s ' ' | cut -d" " -f2 | tr " " "\n" | wc | tr -s ' ' | sed 's/^ *//g' | cut -d" " -f1`
+process_count=`ps -fe | grep $key_word | grep -v grep | tr -s ' ' | cut -d" " -f3 | tr " " "\n" | wc | tr -s ' ' | sed 's/^ *//g' | cut -d" " -f1`
 process_count=`expr $process_count - 3`
 default="L"
 prompt="yes|no|List"
