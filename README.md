@@ -20,8 +20,8 @@ kp [key_word]
 $ kp my-proc
 Are you sure you want to kill 2 my-proc processes [yes|no|List]? l
   501 97558 26789   0 Thu06AM ??         28:18.50 my-proc foo 
-  501 97559 26789   0 Thu06AM ??          1:49.84 my-proc foo 
-Are you sure you want to kill 3 node processes [yes|no|List]? y
-[sudo] password for my-laptop:
-Killed 3 processes.
+  501 97559 26789   0 Thu06AM ??          1:49.84 my-proc bar 
+Are you sure you want to kill 2 node processes [yes|no|List]? y
+Password:
+Killed 2 processes.
 ```
